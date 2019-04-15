@@ -50,7 +50,7 @@ ui <- fluidPage(
   plotOutput("timelines"),
   
   h4("Balances"),
-  tableOutput("balances")
+  verbatimTextOutput("balances")
 )
 
 
@@ -133,7 +133,7 @@ server <- function(input, output) {
   })
   
   tb <- reactive({data.frame(year=1:(input$years+1), no_contrib=pl()$value[1:11], fixed_contrib=pl()$value[12:22], growing_contrib=pl()$value[23:33])})
-  output$balances <- renderTable(tb())
+  output$balances <- renderPrint(tb())
 }
 
 
