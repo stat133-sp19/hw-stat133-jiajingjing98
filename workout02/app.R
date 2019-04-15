@@ -18,26 +18,26 @@ ui <- fluidPage(
   fluidRow(
     column(4, 
            sliderInput(inputId = "amount", label = "Initial Amount",
-                       value = 1000, min = 1, max = 100000, pre = "$")
+                       value = 1000, min = 0, max = 100000, step = 500, pre = "$")
     ),
     column(4, 
            sliderInput(inputId = "rate", label = "Return Rate (in %)",
-                       value = 5, min = 0, max = 20)
+                       value = 5, min = 0, max = 20, step = 0.1)
     ),
     column(4, 
            sliderInput(inputId = "years", label = "Years",
-                       value = 10, min = 0, max = 50)
+                       value = 20, min = 0, max = 50, step = 1)
     )
   ),
   
   fluidRow(
     column(4, 
            sliderInput(inputId = "contrib", label = "Annual Contribution",
-                       value = 2000, min = 0, max = 50000, pre = "$")
+                       value = 2000, min = 0, max = 50000, step = 500, pre = "$")
     ),
     column(4, 
            sliderInput(inputId = "growth", label = "Growth Rate (in %)",
-                       value = 2, min = 0, max = 20)
+                       value = 2, min = 0, max = 20, step = 0.1)
     ),
     column(4, 
            selectInput(inputId = "facet", label = "Facet?",
@@ -132,7 +132,10 @@ server <- function(input, output) {
     y()
   })
   
-  tb <- reactive({data.frame(year=1:(input$years+1), no_contrib=pl()$value[1:11], fixed_contrib=pl()$value[12:22], growing_contrib=pl()$value[23:33])})
+  tb <- reactive({data.frame(year=0:(input$years), 
+                             no_contrib=pl()$value[1:(input$years+1)], 
+                             fixed_contrib=pl()$value[(input$years+2):(2*input$years+2)], 
+                             growing_contrib=pl()$value[(2*input$years+3):(3*input$years+3)])})
   output$balances <- renderPrint(tb())
 }
 
