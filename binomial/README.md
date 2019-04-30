@@ -1,8 +1,8 @@
 Workout03 README
 ================
-####Jingjing Jia
+Jingjing Jia
 
-####04/29/2019
+04/29/2019
 
 This workout contains the following work:
 
