@@ -3,10 +3,10 @@ Type: Package
 Title: Binomial random variable related calculations
 Version: 0.1.0
 Author: Jingjing Jia
-Maintainer: The package maintainer <yourself@somewhere.net>
+Maintainer: Jingjing Jia <jiajingjing@berkeley.edu>
 Description: Functions to calculate probabilities of binomial random variables
     and related calculations such probability distribution, mean, variance, etc.
-License: GPL-2
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr

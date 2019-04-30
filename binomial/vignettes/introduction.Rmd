@@ -1,7 +1,7 @@
 ---
-title: "Vignette Title"
-author: "Vignette Author"
-date: "04/28/2019"
+title: "Binomial Package Introduction"
+author: "Jingjing Jia"
+date: "04/29/2019"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
@@ -11,24 +11,99 @@ vignette: >
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(binomial)
 ```
 
-## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+## Introduction
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+The binomial package facilitates binomial random variable related calculations. It includes functions for calculating the expected value, variance and other properties of a binomial random variable, as well as calculating binomial probability distributions.
 
-```{r cars}
-summary(cars)
+We will go through functions provided in this package in the setting of tossing a loaded coin of 25% chance of heads just to give a clearer illustration of how the functions work.
+
+## Summary Measures
+
+The binomial package contains functions bin_mean, bin_variance, bin_mode, bin_skewness, bin_kurtosis for calculating the mean, variance, mode, skewness and kurtosis respectively of an input binomial variable. Each function takes in two inputs: trials (number of trials) and prob(the probability of success).
+
+The expected value of heads we will get from throwing the loaded coin of 25% chance of heads can be calculated by:
+```{r}
+bin_mean(trials = 10, prob = 0.25)
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+<br>
+The variance of the number of heads we will get can be calculated as:
+```{r}
+bin_variance(trials = 10, prob = 0.25)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Usage is the same for bin_mode, bin_skewness and bin_kurtosis.
+
+
+## Binomial Variables
+
+The package supports creating binomial variable objects. A binomial variable of the number of heads getting from toss a loaded coin with 25% chance heads 10 times can be created by:
+```{r}
+x <- bin_variable(trials = 10, prob = 0.25)
+x
+```
+
+By calling summary on a binomial variable object, summary measures of the binomial variable will be displayed:
+```{r}
+x <- bin_variable(trials = 10, prob = 0.25)
+summary(x)
+```
+where we can easily read off results that can also be calculated from functions mentioned in the previous section.
+
+## Binomial Probabilities Related Functions
+
+### bin_choose
+First of all, we can calculate the number of ways we can get five heads from tossing the loaded coin 10 times by doing:
+```{r}
+bin_choose(n = 10, k = 5)
+```
+where the n input is for the number of trials (10 tosses of coin) and the k input for the number of successes (5 heads we want to get). So here we know there are 252 ways that we can get 5 heads of tossing a coin 10 times.
+
+
+### bin_probability
+
+Next up, we are ready to calculate some binomial probabilities. We can get the probability of getting five heads from tossing the coin 10 times by doing:
+```{r}
+bin_probability(success = 5, trials = 10, prob = 0.25)
+```
+
+The bin_probability function can be used to calculate probabilities for multiple number of successes at a time. For example, if we want to know the probabilities of getting 1, 2, 3 heads from tossing the loaded coin 10 times, we can simply do:
+```{r}
+bin_probability(success = 1:3, trials = 10, prob = 0.25)
+```
+where the probabilities are returned in order.
+
+
+### bin_distribution
+Furthermore, we can get the probabilites of all possible number of successes by using the bin_distribution function. This function simply shows the entire binomial distribution with given inputs. The following code returns an object showing the probabilities of getting 0 to 10 heads from the coin tosses.
+```{r}
+bin_distribution(trials = 10, prob = 0.25)
+```
+
+The binomial distribution can be illustrated visually through a barplot via the following way:
+```{r}
+a <- bin_distribution(trials = 10, prob = 0.25)
+plot(a)
+```
+
+
+### bin_cumulative
+bin_cumulative is one step added to bin_distribution where it also returns the cumulative probabilities. 
+
+```{r}
+bin_cumulative(trials = 10, prob = 0.25)
+```
+The "cumulative" column shows the probabilities of getting smaller than or equal to the corresponding number of successes.
+
+The cumulative distribution can also be illustrated visually through a line plot as follows:
+```{r}
+a <- bin_cumulative(trials = 10, prob = 0.25)
+plot(a)
+```
+
+
+
